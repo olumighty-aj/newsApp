@@ -63,7 +63,7 @@ class _LandingPageState extends State<LandingPage> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: ((context) => const HomePage())));

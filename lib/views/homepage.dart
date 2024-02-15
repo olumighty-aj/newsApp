@@ -7,6 +7,7 @@ import 'package:newsapp/models/slider_model.dart';
 import 'package:newsapp/services/data.dart';
 import 'package:newsapp/services/news.dart';
 import 'package:newsapp/services/slider_data.dart';
+import 'package:newsapp/views/arrticle_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
@@ -169,6 +170,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: articles.length,
                             itemBuilder: (context, index) {
                               return BlogTile(
+                                url: articles[index].url!,
                                   title: articles[index].title!,
                                   desc: articles[index].description!,
                                   imageUrl: articles[index].urlToImage!);
@@ -263,13 +265,15 @@ class CategoryTiles extends StatelessWidget {
 }
 
 class BlogTile extends StatelessWidget {
-  String imageUrl, title, desc;
-  BlogTile({required this.title, required this.desc, required this.imageUrl});
+  String imageUrl, title, desc, url;
+  BlogTile({required this.title, required this.desc, required this.imageUrl, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AritclceView(blogUrl: url)));
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         child: Padding(
@@ -300,6 +304,7 @@ class BlogTile extends StatelessWidget {
                       width: MediaQuery.of(context).size.width / 1.8,
                       child: Text(
                         title,
+                        maxLines: 2,
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
@@ -313,6 +318,7 @@ class BlogTile extends StatelessWidget {
                       width: MediaQuery.of(context).size.width / 1.8,
                       child: Text(
                         desc,
+                        maxLines: 3,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
