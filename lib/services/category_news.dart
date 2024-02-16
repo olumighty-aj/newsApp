@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:newsapp/models/slider_model.dart';
+import 'package:newsapp/models/show_category.dart';
 
-class Sliders {
-  List<SliderModel> sliders = [];
+class ShowCategoryNews {
+  List<ShowCategoryModel> categorynews = [];
 
-  Future<void> getSliderss() async {
+  Future<void> getCategoryNews(String category) async {
     String url =
-        "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b0c0e014293e4f3ca239fc17192d742a";
+        "https://newsapi.org/v2/top-headlines?country=us&category=$category&apiKey=b0c0e014293e4f3ca239fc17192d742a";
 
     var response = await http.get(Uri.parse(url));
     var jsonData = jsonDecode(response.body);
@@ -15,14 +15,14 @@ class Sliders {
     if (jsonData['status'] == 'ok') {
       jsonData['articles'].forEach((element) {
         if (element['urlToImage'] != null && element['description'] != null) {
-          SliderModel slidermodel = SliderModel(
+          ShowCategoryModel categorymodel = ShowCategoryModel(
               title: element["title"],
               description: element["description"],
               url: element["url"],
               urlToImage: element["urlToImage"],
               content: element["content"],
               author: element["author"]);
-          sliders.add(slidermodel);
+          categorynews.add(categorymodel);
         }
       });
     }

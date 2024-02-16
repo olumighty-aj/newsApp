@@ -8,6 +8,7 @@ import 'package:newsapp/services/data.dart';
 import 'package:newsapp/services/news.dart';
 import 'package:newsapp/services/slider_data.dart';
 import 'package:newsapp/views/arrticle_page.dart';
+import 'package:newsapp/views/category_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     categories = getCategories();
-    sliders = getSliders();
+    getSliders();
     getNews();
     super.initState();
   }
@@ -40,6 +41,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _loading = false;
     });
+  }
+
+  getSliders() async {
+    Sliders newsslider = Sliders();
+    await newsslider.getSliderss();
+    sliders = newsslider.sliders;
   }
 
   @override
@@ -56,7 +63,7 @@ class _HomePageState extends State<HomePage> {
               "NEWS",
               style: TextStyle(
                   fontSize: 16,
-                  color: Colors.blue,
+                  color: Colors.purple,
                   fontWeight: FontWeight.w800),
             )
           ]),
@@ -104,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
+                                    color: Colors.purple),
                               ),
                             ],
                           )),
@@ -112,10 +119,10 @@ class _HomePageState extends State<HomePage> {
                         height: 20,
                       ),
                       CarouselSlider.builder(
-                          itemCount: sliders.length,
+                          itemCount: 5,
                           itemBuilder: (context, index, realiIndex) {
-                            String? res = sliders[index].image;
-                            String? resName = sliders[index].name;
+                            String? res = sliders[index].urlToImage;
+                            String? resName = sliders[index].title;
                             return buildImage(res!, index, resName!);
                           },
                           options: CarouselOptions(
@@ -155,12 +162,11 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
+                                    color: Colors.purple),
                               ),
                             ],
                           )),
-  
-                    const  SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Container(
@@ -170,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: articles.length,
                             itemBuilder: (context, index) {
                               return BlogTile(
-                                url: articles[index].url!,
+                                  url: articles[index].url!,
                                   title: articles[index].title!,
                                   desc: articles[index].description!,
                                   imageUrl: articles[index].urlToImage!);
@@ -187,8 +193,8 @@ class _HomePageState extends State<HomePage> {
       child: Stack(children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(7),
-          child: Image.asset(
-            image,
+          child: CachedNetworkImage(
+            imageUrl: image,
             height: 250,
             fit: BoxFit.cover,
             width: MediaQuery.of(context).size.width,
@@ -205,6 +211,7 @@ class _HomePageState extends State<HomePage> {
                   bottomRight: Radius.circular(10))),
           child: Text(
             name,
+            maxLines: 2,
             style: const TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
           ),
@@ -213,7 +220,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildIndicator() => AnimatedSmoothIndicator(
         activeIndex: activeIndex,
-        count: sliders.length,
+        count: 5,
         effect: SlideEffect(
             spacing: 8.0,
             radius: 4.0,
@@ -222,7 +229,7 @@ class _HomePageState extends State<HomePage> {
             paintStyle: PaintingStyle.stroke,
             strokeWidth: 1.0,
             dotColor: Colors.grey,
-            activeDotColor: Colors.blue),
+            activeDotColor: Colors.purple),
       );
 }
 
@@ -232,7 +239,9 @@ class CategoryTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryPage(appBarTitle: categoryName,))),
+      child: Container(
       margin: const EdgeInsets.only(left: 16),
       child: Stack(
         children: [
@@ -260,19 +269,27 @@ class CategoryTiles extends StatelessWidget {
           )
         ],
       ),
+    )
     );
   }
 }
 
 class BlogTile extends StatelessWidget {
   String imageUrl, title, desc, url;
-  BlogTile({required this.title, required this.desc, required this.imageUrl, required this.url});
+  BlogTile(
+      {required this.title,
+      required this.desc,
+      required this.imageUrl,
+      required this.url});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AritclceView(blogUrl: url)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AritclceView(blogUrl: url)));
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
@@ -283,7 +300,8 @@ class BlogTile extends StatelessWidget {
             elevation: 4,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Container(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),

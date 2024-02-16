@@ -23,7 +23,7 @@ class _AritclceViewState extends State<AritclceView> {
               "NEWS",
               style: TextStyle(
                   fontSize: 16,
-                  color: Colors.blue,
+                  color: Colors.purple,
                   fontWeight: FontWeight.w800),
             )
           ]),
