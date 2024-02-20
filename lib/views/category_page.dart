@@ -93,6 +93,7 @@ class ShowCategory extends StatelessWidget {
             ),
             Text(
               desc,
+             // textAlign: TextAlign.center,
               maxLines: 3,
               style: const TextStyle(
                 fontSize: 16,
