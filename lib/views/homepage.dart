@@ -7,8 +7,10 @@ import 'package:newsapp/models/slider_model.dart';
 import 'package:newsapp/services/data.dart';
 import 'package:newsapp/services/news.dart';
 import 'package:newsapp/services/slider_data.dart';
+import 'package:newsapp/theme/theme_provider.dart';
 import 'package:newsapp/views/arrticle_page.dart';
 import 'package:newsapp/views/category_page.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,6 +54,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title:
               const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -69,6 +72,14 @@ class _HomePageState extends State<HomePage> {
           ]),
           centerTitle: true,
           elevation: 0.0,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .toggleTheme();
+                },
+                icon: Icon(Icons.sunny))
+          ],
         ),
         body: _loading
             ? const Center(child: CircularProgressIndicator())
