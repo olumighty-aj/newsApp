@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Provider.of<ThemeProvider>(context, listen: false)
+                  Provider.of<ThemeProvider>(context, listen:false)
                       .toggleTheme();
                 },
                 icon: Icon(Icons.sunny))
