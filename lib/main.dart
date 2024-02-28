@@ -6,10 +6,7 @@ import 'package:newsapp/views/landing_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeProvider(),
-    child: const MyApp(),
-    ));
+  runApp((const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,12 +15,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: Provider.of<ThemeProvider>(context).themeData,
-      
-      home: const LandingPage(),
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      builder: (context, child) {
+        final provider = Provider.of<ThemeProvider>(context);
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: provider.themeData,
+          home: const LandingPage(),
+        );
+      },
     );
   }
 }

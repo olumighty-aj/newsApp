@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/models/show_category.dart';
 import 'package:newsapp/services/category_news.dart';
+import 'package:newsapp/theme/theme_provider.dart';
 import 'package:newsapp/views/arrticle_page.dart';
+import 'package:provider/provider.dart';
 
 class CategoryPage extends StatefulWidget {
   final String appBarTitle;
@@ -33,6 +35,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ThemeProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -70,9 +73,10 @@ class ShowCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ThemeProvider>(context);
     return GestureDetector(
       // onTap: Navigator.push(context, MaterialPageRoute(builder: (context)=> AritclceView(blogUrl: blogUrl)))
-         child: Container(
+      child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         child: Column(
           children: [
@@ -85,21 +89,28 @@ class ShowCategory extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 7,),
+            const SizedBox(
+              height: 7,
+            ),
             Text(
               title,
               maxLines: 2,
-              style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 20,
+                  color: provider.getTextColor(context),
+                  fontWeight: FontWeight.bold),
             ),
             Text(
               desc,
-             // textAlign: TextAlign.center,
+              // textAlign: TextAlign.center,
               maxLines: 3,
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

@@ -53,8 +53,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        // backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title:
               const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -75,8 +76,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Provider.of<ThemeProvider>(context, listen:false)
-                      .toggleTheme();
+                  provider.toggleTheme();
                 },
                 icon: Icon(Icons.sunny))
           ],
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Padding(
+                       Padding(
                           padding: EdgeInsets.only(left: 10, right: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                                    color: provider.getTextColor(context)),
                               ),
                               Text(
                                 "View All",
@@ -156,8 +156,8 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
+                       Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -166,9 +166,9 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                                    color: provider.getTextColor(context)),
                               ),
-                              Text(
+                            const  Text(
                                 "View All",
                                 style: TextStyle(
                                     fontSize: 17,
@@ -299,6 +299,7 @@ class BlogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ThemeProvider>(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -341,7 +342,7 @@ class BlogTile extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
-                            color: Colors.black),
+                            color: provider.getTextColor(context)),
                       ),
                     ),
                     const SizedBox(

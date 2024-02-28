@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:newsapp/theme/theme.dart';
 
 class ThemeProvider with ChangeNotifier {
-  ThemeData _themeData = lightmode;
+  ThemeData _themeData = ThemeData.light();
 
   ThemeData get themeData => _themeData;
 
-  set themeData(ThemeData themeData) {
-    _themeData = themeData;
-    notifyListeners();
+  // Method to retrieve text color based on the current theme
+  Color getTextColor(BuildContext context) {
+    final currentTheme = Theme.of(context).brightness;
+    return currentTheme == Brightness.light ? Colors.black : Colors.white;
   }
 
+
   void toggleTheme() {
-    if (themeData == lightmode) {
-      themeData = darkmode;
+    final isLight = _themeData == ThemeData.light();
+    if (isLight) {
+      _themeData = ThemeData.dark();
     } else {
-      themeData = lightmode; 
+      _themeData = ThemeData.light();
     }
+    notifyListeners();
   }
 }
